@@ -10,10 +10,18 @@
   </head>
 
   <body>
-   
-    <%=link_to "top",root_path %>
-    <%=link_to "login",new_user_path%>
-    <%=link_to "userindex",user_index_path%>
+   <% if current_user.present?%>
+    <%= link_to "top",root_path %>
+    <%= link_to "logout","#" %>
+    <%= link_to "signup",session_new_path %>
+    <%= link_to "mypage",user_path(current_user.id) %>
+    <%= link_to "post",post_new_path %>
+   <% else %>
+    <%= link_to "top",root_path %>
+    <%= link_to "signup",session_new_path %>
+    <%= link_to "login",new_user_path %>
+    <%= link_to "userindex",user_index_path%>
+   <% end %>
     <%= yield %>
   </body>
 </html>

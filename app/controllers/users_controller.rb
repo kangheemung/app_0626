@@ -1,4 +1,5 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
+  
   def index
       @users=User.all
   end
@@ -12,7 +13,7 @@ class UserController < ApplicationController
     p "================"
      @user=User.new(user_params)
     if @user.save
-      session[:user_id]=@user.id
+      session[:id]=@user.id
        redirect_to user_path(@user.id)
        flash[:email] = "Your message was successfully sent."
      p "================"
@@ -39,9 +40,11 @@ class UserController < ApplicationController
 
   def show
       @user=User.find_by(id: params[:id])
+      @posts=@user.posts.all
   end
   def destroy
     user = User.find_by(id: params[:id])
+     flash[:success] = "本当に削除しますか。"
       user.destroy
           redirect_to root_path, notice: "削除が完了しました"
     flash[:success] = "User deleted"
